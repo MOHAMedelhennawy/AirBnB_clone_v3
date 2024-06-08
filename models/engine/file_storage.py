@@ -81,6 +81,6 @@ class FileStorage:
     def count(self, cls=None):
         """ the number of objects in storage matching the given class.
         If no class is passed, returns the count of all objects in storage"""
-        if cls:
+        if cls and cls in classes:
             return len(self.all(cls))
         return len(self.all())
