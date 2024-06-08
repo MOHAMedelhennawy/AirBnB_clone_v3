@@ -2,7 +2,7 @@
 """
 app instantiation
 """
-from flask import Flask
+from flask import Flask, jsonify
 from models import storage
 from api.v1.views import app_views
 import os
@@ -15,6 +15,12 @@ app.register_blueprint(app_views)
 def close(e):
     """ close the storage """
     storage.close()
+
+
+@app.errorhandler(404)
+def page_not_found(e):
+    """ Custom 404 error page """
+    return jsonify({"error": "Not found"})
 
 
 if __name__ == "__main__":
