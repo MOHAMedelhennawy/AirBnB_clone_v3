@@ -20,7 +20,7 @@ def close(e):
 @app.errorhandler(404)
 def page_not_found(e):
     """ Custom 404 error page """
-    return jsonify({"error": "Not found"})
+    return (jsonify({"error": "Not found"}), 404)
 
 
 if __name__ == "__main__":
