@@ -21,7 +21,7 @@ def getStateWithID(state_id):
     all_states = storage.all(State)
     if key not in all_states.keys():
         abort(404)
-    return storage.all(State)[key].to_dict()
+    return jsonify(storage.all(State)[key].to_dict())
 
 @app_views.route('/states/<state_id>', methods=['DELETE'])
 def deleteState(state_id):
@@ -32,7 +32,7 @@ def deleteState(state_id):
         abort(404)
     storage.delete(all_states[key])
     storage.save()
-    return {}, 200
+    return jsonify({}), 200
 
 @app_views.route('/states/', methods=['POST'])
 def createState():
@@ -44,12 +44,11 @@ def createState():
         abort(400, 'Missing name')
     new_state = State(name=body.get('name'))
     new_state.save()
-    return new_state.to_dict(), 201
+    return jsonify(new_state.to_dict()), 201
 
 @app_views.route('/states/<state_id>', methods=['PUT'])
 def updateState(state_id):
-    """Updates a State object based on state_id
-    """
+    """Updates a State object based on state_id"""
     state = storage.get(State, state_id)
     if not state:
         abort(404)
@@ -60,4 +59,4 @@ def updateState(state_id):
         if key not in ['id', 'created_at', 'updated_at']:
             setattr(state, key, value)
     storage.save()
-    return state.to_dict(), 200
+    return jsonify(state.to_dict()), 200
