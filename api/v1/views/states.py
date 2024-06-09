@@ -48,6 +48,8 @@ def createState():
 
 @app_views.route('/states/<state_id>', methods=['PUT'])
 def updateState(state_id):
+    """Updates a State object based on state_id
+    """
     state = storage.get(State, state_id)
     if not state:
         abort(404)
