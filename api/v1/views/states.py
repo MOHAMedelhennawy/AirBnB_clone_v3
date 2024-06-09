@@ -36,18 +36,16 @@ def createState():
     """Creates a new state"""
     body = request.get_json()
     if not body:
-        return make_response(jsonify({'error': 'Not a JSON'}), 400)
+        abort(400, 'Not a JSON')
     if 'name' not in body:
         abort(400, 'Missing name')
     new_state = State(name=body.get('name'))
     new_state.save()
     return new_state.to_dict(), 201
 
-@app_views.route('/api/v1/states/<state_id>', methods=['PUT'])
+@app_views.route('/states/<state_id>', methods=['PUT'])
 def updateState(state_id):
-    # state = storage.get(State, state_id)
-    key = State.__name__ + '.' + state_id
-    state = storage.all(State)[key]
+    state = storage.get(State, state_id)
     if not state:
         abort(404)
     data = request.get_json()
