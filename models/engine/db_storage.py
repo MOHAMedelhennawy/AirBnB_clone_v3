@@ -81,7 +81,7 @@ class DBStorage:
             return None
         objects = self.all()
         key = "{}.{}".format(cls.__name__, id)
-        if objects[key]:
+        if key in objects.keys():
             return objects[key]
         return None
 
