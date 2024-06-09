@@ -8,11 +8,13 @@ state = State()
 
 @app_views.route('/states/', methods=['GET'])
 def getAllStates():
-    all_state = [ state.to_dict() for state in storage.all(State).values() ]
+    """Retrieves the list of all State objects"""
+    all_state = [state.to_dict() for state in storage.all(State).values()]
     return all_state
 
 @app_views.route('/states/<state_id>', methods=['GET'])
 def getStateWithID(state_id):
+    """Retrieves a State object with state_id"""
     key = State.__name__ + '.' + state_id
     all_states = storage.all(State)
     if key not in all_states.keys():
@@ -21,10 +23,10 @@ def getStateWithID(state_id):
 
 @app_views.route('/states/<state_id>', methods=['DELETE'])
 def deleteState(state_id):
+    """Deletes a State object with state_id"""
     all_states = storage.all(State)
     key = State.__name__ + '.' + state_id
-    state = all_states[key]
-    if not state:
+    if key not in all_states.keys():
         abort(404)
     storage.delete(state)
     storage.save()
@@ -32,6 +34,7 @@ def deleteState(state_id):
 
 @app_views.route('/states/', methods=['POST'])
 def createState():
+    """Creates a new state"""
     body = request.get_json()
     if not body:
         abort(400, message='Not a JSON')
