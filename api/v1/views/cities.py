@@ -19,6 +19,7 @@ def getCitiesOfState(state_id):
     list_cities = [city.to_dict() for city in state.cities]
     return jsonify(list_cities)
 
+
 @app_views.route('/cities/<city_id>', methods=['GET'])
 def getCityWithID(city_id):
     """Retrieves a City object with id == city_id"""
@@ -26,6 +27,7 @@ def getCityWithID(city_id):
     if not city:
         abort(404)
     return city.to_dict()
+
 
 @app_views.route('/cities/<city_id>', methods=['DELETE'])
 def deleteCityWithID(city_id):
@@ -36,6 +38,7 @@ def deleteCityWithID(city_id):
     storage.delete(city)
     storage.save()
     return jsonify({}), 200
+
 
 @app_views.route('/states/<state_id>/cities', methods=['POST'])
 def createCity(state_id):
@@ -48,6 +51,7 @@ def createCity(state_id):
     new_city = City(name=body.get('name'), state_id=state_id)
     new_city.save()
     return jsonify(new_city.to_dict()), 201
+
 
 @app_views.route('/cities/<city_id>', methods=['PUT'])
 def updateCity(city_id):
