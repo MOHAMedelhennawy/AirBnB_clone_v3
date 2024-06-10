@@ -43,7 +43,7 @@ def deleteState(state_id):
 def createState():
     """Creates a new state"""
     data = request.get_json()
-    if not isinstance(data, dict) or not data:
+    if not isinstance(data, dict):
         abort(400, {'error': 'Not a JSON'})
     if 'name' not in data:
         abort(400, {'error': 'Missing name'})
@@ -57,6 +57,7 @@ def createState():
 def updateState(state_id):
     """Updates a State object based on state_id"""
     state = storage.get(State, state_id)
+    print(state)
     if not state:
         abort(404)
     data = request.get_json()
