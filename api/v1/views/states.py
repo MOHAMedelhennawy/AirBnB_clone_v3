@@ -63,14 +63,11 @@ def updateState(state_id):
     state = storage.get(State, state_id)
     if not state:
         abort(404)
-    try:
-        data = request.get_json()
-        if not isinstance(data, dict) or not data:
-            abort(400, {'error': 'Not a JSON'})
-        for key, value in data.items():
-            if key not in ['id', 'created_at', 'updated_at']:
-                setattr(state, key, value)
-        storage.save()
-        return jsonify(state.to_dict()), 200
-    except BadRequest:
+    data = request.get_json()
+    if not isinstance(data, dict) or not data:
         abort(400, {'error': 'Not a JSON'})
+    for key, value in data.items():
+        if key not in ['id', 'created_at', 'updated_at']:
+            setattr(state, key, value)
+    storage.save()
+    return jsonify(state.to_dict()), 200
